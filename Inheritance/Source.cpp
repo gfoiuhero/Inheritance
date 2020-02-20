@@ -87,7 +87,7 @@ public:
 	{
 		this->rating = rating <= 100 ? rating : 0;
 	}
-	void set_attendence(unsigned int rating)
+	void set_attendence(unsigned int attendence)
 	{
 		this->attendence = attendence <= 100 ? attendence : 100;
 	}
@@ -95,12 +95,13 @@ public:
 	//			Constructor:
 	Student(
 		const std::string& last_name, const std::string& first_name, unsigned int age,
-		const std::string& spec, const std::string& group, unsigned int rating = 0, unsigned int attendence = 0
+		const std::string& spec, const std::string& group, unsigned int rating, unsigned int attendence 
 	) :Human(last_name, first_name, age)
 	{
 		set_specialty(spec);
 		set_group(group);
-		this->rating = this->attendence = 0;
+		set_rating(rating);
+		set_attendence(attendence);
 		std::cout << "Sconstructor:\t" << this << std::endl;
 	}
 	~Student()
@@ -171,12 +172,17 @@ public:
 class Graduate : public Student
 {
 	std::string topic_graduate;
+	std::string curator;
 	unsigned int number_of_pages;
-	
+
 public:
 	const std::string& get_topic_graduate() const
 	{
 		return topic_graduate;
+	}
+	const std::string& get_curator() const
+	{
+		return curator;
 	}
 	unsigned int get_number_of_pages() const
 	{
@@ -186,20 +192,26 @@ public:
 	{
 		this->topic_graduate = topic_graduate;
 	}
+	void set_curator(const std::string& curator)
+	{
+		this->curator = curator;
+	}
 	void set_number_of_pages(unsigned int number_of_pages)
 	{
 		this->number_of_pages = number_of_pages;
 
 	}
-	 //			CONSTRUCTOR:
+	//			CONSTRUCTOR:
 	Graduate
 	(
+		const std::string& last_name, const std::string& first_name, unsigned int age,
 		const std::string& spec, const std::string& group, unsigned int rating, unsigned int attendence,
-		std::string topic_graduate, unsigned int number_of_pages
-	) :Student(spec, group, rating, attendence)
+		const std::string& topic_graduate, const std::string& curator, unsigned int number_of_pages
+	) :Student(last_name, first_name, age, spec, group, rating, attendence)
 	{
 		set_topic_graduate(topic_graduate);
 		set_number_of_pages(number_of_pages);
+		set_curator(curator);
 		std::cout << "Gconstructor:\t" << this << std::endl;
 	}
 	~Graduate()
@@ -209,7 +221,7 @@ public:
 	void print()
 	{
 		Student::print();
-
+		std::cout << "Тема: " << topic_graduate << "Кличка куратора: " << curator << ", Количество страниц " << number_of_pages << std::endl;
 	}
 };
 
@@ -220,9 +232,9 @@ void main()
 	setlocale(LC_ALL, "");
 	Human Vasya("Жернов", "Ярик", 22);
 	Vasya.print();
-	Student student("Alax", "Akbar", 13, "Dizain", "ST DV 37");
+	Student student("Alax", "Akbar", 13, "Dizain", "ST DV 37", 10,13);
 	student.print();
 	Teacher("Einstein", "Albert", 141, "Astronomi", 5, 5).print();
+	Graduate("\nAlax", "Akbar", 13, "Dizain", "ST DV 37", 90, 30, " Создание взрывчатки в домашних условиях, ", "Подрывник", 666).print();
 
 }
-
